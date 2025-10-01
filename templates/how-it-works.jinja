@@ -1,0 +1,25 @@
+{% extends "base.jinja" %}
+{% block title %} How it Works | Timestamp Verifier {% endblock %}
+
+
+{% block content %}
+<h1> How it Works</h1>
+<p>Timestamp verifier is built on <a href="https://en.wikipedia.org/wiki/HMAC">Hash-based Message Authentication Codes</a>. 
+HMACs are a cryptography concept that allow you to authenticate a message, proving that it came from a particular source.
+This is done using a "shared secret", a long random passcode which is then combined with the message in such a way that it effectively cannot be reversed.
+To verify the authenticity of the message, the verifier can combine the message with the same secret key and check if the HMAC they calculated matches the HMAC they were given.
+If there's a match, then the message must have been sent by someone with access to the secret key.  </p>
+
+<p>When you click the "Show Token" button on the homepage of the tool, it sends a request to the server. 
+The server responds with the exact time it received the message, which allows verifiers to be confident that you generated the token at the time the website shows.
+The server also sends back a "verification token", which is just an HMAC of the timer. 
+Without this, a bad actor could spin up a copy of the server that was configured to send whatever time values the bad actor wanted. 
+Then, for verification, a request is sent to the server that has the timestamp and verification token, which the server can then use to authenticate that it actually sent that message.
+
+<p>The secret key itself isn't stored in the code of the site, but is instead configured at setup time. 
+This means that different communities can run different instances of this tool with different secret keys. 
+It also means that I, chair547, the person who programmed this tool, do not need to know the secret key for any particular instance of this tool, and in fact I don't know the secret keys of any instance of this tool running in production.
+This means that for each community, the secret key can be reliably controlled only by highly trusted community members, rather than every community that uses this tool needing to trust me personally to not use my knowledge of the secret key maliciously. 
+{% endblock %}
+
+Timestamp: 1759343305; Token: SZp1fk3b_coPIC-2

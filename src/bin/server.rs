@@ -26,6 +26,7 @@ async fn main() {
         .route("/", get(get_home))
         .route("/token", get(get_token))
         .route("/verify", get(get_verify).post(post_verify))
+        .route("/how-it-works", get(get_how_it_works))
         .with_state(AppState {
             template_engine: Engine::from(jinja),
         });
@@ -53,6 +54,11 @@ async fn get_verify(State(state): State<AppState>) -> Response {
 async fn post_verify(State(state): State<AppState>, Form(payload): Form<VerifyInput>) -> Response {
     let output: VerifyOutput = payload.into();
     RenderHtml("verify.jinja", state.template_engine, output).into_response()
+}
+
+#[axum::debug_handler]
+async fn get_how_it_works(State(state): State<AppState>) -> Response {
+    RenderHtml("how-it-works.jinja", state.template_engine, ()).into_response()
 }
 
 #[derive(Serialize, Deserialize, Debug)]
