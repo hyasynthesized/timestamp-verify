@@ -12,6 +12,7 @@ fn get_int_from_stdin() -> i64 {
 }
 
 fn main() {
+    println!("Timestamp?");
     let dt = get_int_from_stdin();
 
     let signature = sign(dt);
